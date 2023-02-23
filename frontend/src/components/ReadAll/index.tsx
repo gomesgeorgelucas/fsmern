@@ -1,49 +1,67 @@
-/**
- * Exercício!
- * Dentro do component ReadAll, crie um componente de Card.
- * Dentro do Card, exiba uma imagem de qualquer personagem
- * Além disso, também exiba o nome da personagem.
- *
- * OBS: Caso você tenha escolhido algo diferente no backend, pode mante o tema original.
- * Não precisa ser integrado com o backend! Apenas a exibição de dados no frontend.
- *
- *
- * Exercício bônus:
- * Pegue o div com a classe "Card" e extraia em um componente JSX, seguindo os mesmos
- * passos que fizemos para a criação do componente de ReadAll
- */
-import { ReactElement, FC } from "react";
-import Card from "../Cards/Card";
-import { CardData } from "../Cards/typings/card";
+import { ReactElement, useState, useEffect } from "react";
+import Card from "../Card/Card";
+import { CardData } from "../Card/typings/card";
 
 import "./style.css";
 
-interface Props {
-  child?: ReactElement;
-}
-
-const data = [
+const itemsMock = [
   {
-    img: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-    name: "Rick Sanchez",
+    _id: "63ee1e0b18f2b9a93da8435a",
+    nome: "Rick Sanchez",
+    imagemUrl: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+    tags: ["Status: Vivo", "Espécie: Humana", "Origem: Terra C-137"],
   },
   {
-    img: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
-    name: "Morty Smith",
+    _id: "63ef87c74522de2944ab1fa8",
+    nome: "Morty Smith",
+    imagemUrl: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+  },
+  {
+    _id: "63ef87cc4522de2944ab1fa9",
+    nome: "Summer Smith",
+    imagemUrl: "https://rickandmortyapi.com/api/character/avatar/3.jpeg",
+  },
+  {
+    _id: "63ef87d44522de2944ab1faa",
+    nome: "Beth Smith",
+    imagemUrl: "https://rickandmortyapi.com/api/character/avatar/4.jpeg",
+  },
+  {
+    _id: "63ef87e24522de2944ab1fab",
+    nome: "Jerry Smith",
+    imagemUrl: "https://rickandmortyapi.com/api/character/avatar/5.jpeg",
   },
 ] as CardData[];
 
-const ReadAll: FC<Props> = (_) => {
-  if (!data.length) return null;
+const URL = "http://192.168.1.3:3001/list";
+
+const ReadAll = () => {
+  const [items, setItems] = useState(itemsMock);
+
+  const realizarRequisicao = async () => {
+    const response = await fetch(URL);
+    const data = await response.json();
+
+    console.log(Object.values(data));
+
+    setItems(Object.values(data));
+  };
+
+  useEffect(() => {
+    realizarRequisicao();
+  }, []);
+
+  if (!items.length) return null;
 
   return (
     <div className="card-container">
-      {data.map((card, index) => {
+      {items.map((card, index) => {
         return (
           <Card
             key={`$card-${card?._id ?? index}-key`}
-            img={card?.img}
-            name={card?.name}
+            img={card?.imagemUrl}
+            name={card?.nome}
+            tags={card?.tags}
           />
         );
       })}

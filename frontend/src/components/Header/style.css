@@ -1,0 +1,16 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  padding: 1rem;
+  align-items: center;
+}
+
+.Header-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.Header-links > a {
+  font-weight: bold;
+}

@@ -1,5 +1,6 @@
 const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
+const cors = require("cors");
 // const DB_URL = "mongodb://127.0.0.1:27017";
 // const DB_NAME = "ocean-db-09-02-23";
 
@@ -17,6 +18,7 @@ const DB_NAME = "ocean-db-09-02-23";
   const dbColl = db.collection("personagens");
 
   const app = express();
+  app.use(cors());
   app.use(express.json());
 
   app.get("/", (req, res) => {
@@ -76,7 +78,7 @@ const DB_NAME = "ocean-db-09-02-23";
 
   app.delete("/list/:id", async (req, res) => {
     const id = req.params.id;
-    const result = await dbColl.deleteOne({ id: new ObjectId(id) });
+    const result = await dbColl.deleteOne({ id });
     res.send(result);
   });
 
