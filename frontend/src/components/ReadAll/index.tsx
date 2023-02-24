@@ -33,7 +33,8 @@ const itemsMock = [
   },
 ] as CardData[];
 
-const URL = "http://192.168.1.3:3001/list";
+//const URL = "http://192.168.1.3:3001/list";
+const URL = "http://ocean-backend-23.onrender.com/list";
 
 const ReadAll = () => {
   const [items, setItems] = useState(itemsMock);
